@@ -1,3 +1,4 @@
+import 'package:api/api/api_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // we need to createPost to add this in post list ..
   List<Map<String, dynamic>> createdPost = [];
   // It create an instance of Dio for making HTTP requests
-  final Dio dio = Dio();
+  // final Dio dio = Dio();
+  final ApiClient apiClient = ApiClient();
 
   // it cancel ongoing request
   CancelToken cancelToken = CancelToken();
@@ -22,6 +24,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String errorMessage = ''; //store error
   bool isLoading = false;
 
+  //it is used to retrieve data from a specified resource.
+  // it is idempotent method because multiple identical requests will have the same effect as a single request.
+  // it means that no matter how many times you apply the same GET request, the result will be the same.
   Future<void> getHttp() async {
     // set loading state and clear previous error
     setState(() {
@@ -31,8 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     try {
       //make request with get method
-      final response = await dio.get(
-        'https://jsonplaceholder.typicode.com/posts',
+      final response = await apiClient.dio.get(
+        '/posts', // this is path or endpoint of url
+        queryParameters: {'userId': 1, 'sort': 'desc'},
         // it help dio how to handle http request..it is a configuration obj
         options: Options(
           // Set headers if needed (authentication tokens, etc.)
@@ -72,6 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //it is used to create a new resource or replace an existing one within a collection.
+  // it is not idempotent method because multiple identical requests will create multiple resources with different IDs.
+  //it can  be used as update if the resource already exists. it will create multiple resources with different IDs.
   Future<void> postHttp() async {
     setState(() {
       isLoading = true;
@@ -95,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
       //here we have  create all the request of upside data
       final request = postsToCreate
           .map(
-            (postData) => dio.post(
-              'https://jsonplaceholder.typicode.com/posts',
+            (postData) => apiClient.dio.post(
+              '/posts',
               data: postData,
 
               options: Options(
@@ -143,6 +152,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  // it can be used to create a new resource or replace an existing one within a id.
+
   Future<void> putHttp() async {
     setState(() {
       isLoading = true;
@@ -150,15 +161,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     try {
-      final response = await dio.put(
-        'https://jsonplaceholder.typicode.com/posts/1',
+      final response = await apiClient.dio.put(
+        '/posts/1',
         data: {
           'id': 1,
           'title': 'Updated Title via PUT',
           'body': 'This is the completely updated body content via PUT method',
           'userId': 1,
         },
-        options: Options(
+        options: Options(  // use for override the default option of dio instance
           headers: {'Content-Type': 'application/json'},
           receiveTimeout: const Duration(seconds: 10),
         ),
@@ -178,6 +189,10 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  // it update only specific field
+  //it is idempotent method because multiple identical requests will have the same effect as a single request.
+  // it means that no matter how many times you apply the same PATCH request,
+  // the resource will remain in the same state after the first application.
   Future<void> patchHttp() async {
     setState(() {
       isLoading = true;
@@ -185,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     try {
-      final response = await dio.patch(
+      final response = await apiClient.dio.patch(
         'https://jsonplaceholder.typicode.com/posts/1',
         data: {'title': 'Partially Updated Title via PATCH'},
         options: Options(
@@ -306,6 +321,11 @@ class _MyHomePageState extends State<MyHomePage> {
             tooltip: 'Create New Post',
             backgroundColor: Colors.blue,
             child: const Icon(Icons.add, color: Colors.white),
+          ),
+          FloatingActionButton(
+            onPressed: cancelToken.cancel,
+            tooltip: 'Create New Post',
+            backgroundColor: Colors.blue,
           ),
         ],
       ),

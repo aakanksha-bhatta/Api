@@ -1,14 +1,46 @@
 import 'package:dio/dio.dart';
 
 class CustomInterceptor extends Interceptor {
+  // call before request is sent
+  // Here you can modify the request options, adding headers, etc.
+  // we can also perform actions like logging or authentication.
   @override
+  //use for reusing code, avoid repeating code, and maintain consistency across multiple requests.
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    super.onRequest(options, handler);
+    print(options.uri);
+    print(options.baseUrl);
+    print(options.path);
+    print(options.method);
+    print(options.headers);
+    options.connectTimeout = const Duration(seconds: 5);
+    // Set a custom connection timeout for each request (5 seconds)
+    return handler.next(options);
+    // continue with the request
   }
 
+  // This method is called when the response is received from the server before it passed to app
+  // Here you can inspect or modify the response data.
+  // You can also handle specific status codes or errors.
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {}
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    print(response.statusCode);
+    if (response.requestOptions.method == 'PUT') {
+      print('PUT Response: ${response.data}');
+    } else if (response.requestOptions.method == 'PATCH') {
+      print('PATCH Response: ${response.data}');
+    }
 
+    return handler.next(response); // continue with the response
+  }
+
+  // This method is called when an error occurs during the request.
+  // Here you can handle errors, log them, or perform retries.
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {}
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    //dio exception is error type thrown  by dio package,
+    // it provides detailed information about the error that occurred during an HTTP request.
+
+    print(err.message);
+    return handler.next(err); // continue with the error
+  }
 }
