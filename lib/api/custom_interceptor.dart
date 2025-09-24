@@ -39,8 +39,34 @@ class CustomInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     //dio exception is error type thrown  by dio package,
     // it provides detailed information about the error that occurred during an HTTP request.
-
+    switch (err.type) {
+      case DioExceptionType.connectionTimeout:
+        print('Connection Timeout Error');
+        break;
+      case DioExceptionType.sendTimeout:
+        print('Send Timeout Error');
+        break;
+      case DioExceptionType.receiveTimeout:
+        print('Receive Timeout Error');
+        break;
+      case DioExceptionType.badResponse:
+        print('Bad Response Error: ${err.response?.statusCode}');
+        break;
+      case DioExceptionType.cancel:
+        print('Request Cancelled');
+        break;
+      case DioExceptionType.connectionError:
+        print('Connection Error');
+        break;
+      case DioExceptionType.badCertificate:
+        print('Bad Certificate Error');
+        break;
+      case DioExceptionType.unknown:
+        print('Unknown Error: ${err.message}');
+        break;
+    }
     print(err.message);
     return handler.next(err); // continue with the error
   }
 }
+// CustomInterceptor class is used to intercept and modify HTTP requests and responses in a Dio instance.

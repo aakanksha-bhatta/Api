@@ -38,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
       //make request with get method
       final response = await apiClient.dio.get(
         '/posts', // this is path or endpoint of url
-        queryParameters: {'userId': 1, 'sort': 'desc'},
         // it help dio how to handle http request..it is a configuration obj
         options: Options(
           // Set headers if needed (authentication tokens, etc.)
@@ -54,9 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
       );
 
       // Update state with the received data
+
+      // The API returns a list of articles directly in response.data
       setState(() {
-        // The API returns a list of articles directly in response.data
-        user = response.data;
+        user = (response.data as List)
+            .map((item) => Map<String, dynamic>.from(item as Map))
+            .toList();
       });
     } on DioException catch (e) {
       // Handle Dio-specific errors
@@ -169,7 +171,8 @@ class _MyHomePageState extends State<MyHomePage> {
           'body': 'This is the completely updated body content via PUT method',
           'userId': 1,
         },
-        options: Options(  // use for override the default option of dio instance
+        options: Options(
+          // use for override the default option of dio instance
           headers: {'Content-Type': 'application/json'},
           receiveTimeout: const Duration(seconds: 10),
         ),
@@ -277,7 +280,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-
           if (isLoading) const CircularProgressIndicator(),
 
           Expanded(
@@ -322,11 +324,11 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.blue,
             child: const Icon(Icons.add, color: Colors.white),
           ),
-          FloatingActionButton(
-            onPressed: cancelToken.cancel,
-            tooltip: 'Create New Post',
-            backgroundColor: Colors.blue,
-          ),
+          // FloatingActionButton(
+          //   onPressed: cancelToken.cancel,
+          //   tooltip: 'Create New Post',
+          //   backgroundColor: Colors.blue,
+          // ),
         ],
       ),
     );
