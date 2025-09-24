@@ -25,6 +25,14 @@ class ApiClient {
 
   ApiClient() {
     dio.interceptors.add(CustomInterceptor());
+    // dio.interceptors.add(
+    //   InterceptorsWrapper(
+    //     // helper class of interceptor.
+    //     onRequest: (options, handler) => handler.next(options),
+    //     onResponse: (response, handler) => handler.next(response),
+    //     onError: (error, handler) => handler.next(error),
+    //   ),
+    // );
     // we dont need to write print statement to check log  network operation.. it will give information of every request and responses
     dio.interceptors.add(
       LogInterceptor(

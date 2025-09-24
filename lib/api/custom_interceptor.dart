@@ -7,6 +7,7 @@ class CustomInterceptor extends Interceptor {
   @override
   //use for reusing code, avoid repeating code, and maintain consistency across multiple requests.
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    options.headers['Custom-Header'] = 'CustomHeaderValue';
     print(options.uri);
     print(options.baseUrl);
     print(options.path);
@@ -24,6 +25,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     print(response.statusCode);
+    print(response.data);
     if (response.requestOptions.method == 'PUT') {
       print('PUT Response: ${response.data}');
     } else if (response.requestOptions.method == 'PATCH') {
