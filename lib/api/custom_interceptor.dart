@@ -7,7 +7,7 @@ class CustomInterceptor extends Interceptor {
   @override
   //use for reusing code, avoid repeating code, and maintain consistency across multiple requests.
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers['Custom-Header'] = 'CustomHeaderValue';
+    options.headers['Authorization'] = 'Bearer your_access_token';
     print(options.uri);
     print(options.baseUrl);
     print(options.path);
