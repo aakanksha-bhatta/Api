@@ -1,4 +1,5 @@
 import 'package:api/api/api_client.dart';
+import 'package:api/api/file_uploading.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -329,6 +330,18 @@ class _MyHomePageState extends State<MyHomePage> {
           //   tooltip: 'Create New Post',
           //   backgroundColor: Colors.blue,
           // ),
+          FloatingActionButton(
+            heroTag: null,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FileUploading()),
+              );
+            },
+            tooltip: 'Create New Post',
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.abc, color: Colors.white),
+          ),
         ],
       ),
     );
