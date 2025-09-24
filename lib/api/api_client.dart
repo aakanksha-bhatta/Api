@@ -11,10 +11,11 @@ class ApiClient {
       connectTimeout: Duration(seconds: 3),
       sendTimeout: Duration(seconds: 3),
       receiveTimeout: Duration(seconds: 3),
+      persistentConnection: false,
       headers: {
         'Content-Type': 'application/json', // which content type like json ...
       },
-
+      responseType: ResponseType.json,
       validateStatus: (status) => status != null && status < 500,
       // (status == 200 ||
       //     status ==
