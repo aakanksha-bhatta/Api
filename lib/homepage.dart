@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // Update state with the received data
 
-      // The API returns a list of articles directly in response.data
+      // The API returns a list directly in response.data
       setState(() {
         user = (response.data as List)
             .map((item) => Map<String, dynamic>.from(item as Map))
@@ -330,16 +330,15 @@ class _MyHomePageState extends State<MyHomePage> {
           //   tooltip: 'Create New Post',
           //   backgroundColor: Colors.blue,
           // ),
-          FloatingActionButton(
-            heroTag: null,
+          ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => FileUploading()),
               );
             },
-            tooltip: 'Create New Post',
-            backgroundColor: Colors.blue,
+
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
             child: const Icon(Icons.abc, color: Colors.white),
           ),
         ],

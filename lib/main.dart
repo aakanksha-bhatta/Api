@@ -1,4 +1,4 @@
-import 'package:api/homepage.dart';
+import 'package:api/statefulwidget/lifecycle_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: MyHomePage(),
+      home: LifecycleWidget(title: 'Lifecycle Widget'),
       debugShowCheckedModeBanner: false,
     );
   }
