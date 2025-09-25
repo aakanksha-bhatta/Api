@@ -1,21 +1,29 @@
-import 'package:api/statefulwidget/lifecycle_widget.dart';
+import 'package:api/app/app_theme.dart';
+import 'package:api/app/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: LifecycleWidget(title: 'Lifecycle Widget'),
-      debugShowCheckedModeBanner: false,
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (context, currentTheme, _) {
+        return MaterialApp(
+          title: 'Theme Toggle Demo',
+          theme: AppTheme.getLightTheme(),
+          darkTheme: AppTheme.getDarkTheme(),
+          themeMode: currentTheme,
+          home: HomeScreen(themeNotifier: themeNotifier),
+        );
+      },
     );
   }
 }
