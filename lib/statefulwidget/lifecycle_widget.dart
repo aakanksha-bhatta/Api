@@ -120,6 +120,7 @@ class _LifecycleWidgetState extends State<LifecycleWidget> {
   }
 
   // it called when widget is permanently removed from widget tree
+  //to destroy some things permanently
   // it is final method called in widget lifecycle
   // it can be used only one time to dispose resources like release memory, close stream,...
   @override

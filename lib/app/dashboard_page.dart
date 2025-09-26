@@ -1,3 +1,4 @@
+import 'package:api/app/loginpage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         isDarkMode = brightness == Brightness.dark;
       });
-      _fetchImages(); // Fetch images after first frame
+      _fetchImages();
     });
   }
 
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (oldWidget.themeNotifier != widget.themeNotifier) {
       debugPrint('ThemeNotifier instance changed - refetching images');
-      _fetchImages(); // Refetch images if themeNotifier changes
+      _fetchImages();
     }
   }
 
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       _isLoading = true;
-      _imageUrls = []; // Clear previous images
+      _imageUrls = [];
     });
 
     try {
@@ -68,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
         final articles = data['articles'] as List?;
 
         if (articles != null) {
-          // Extract only image URLs from articles
           final urls = articles
               .where((article) => article['urlToImage'] != null)
               .map((article) => article['urlToImage'].toString())
@@ -98,10 +98,21 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('My App', style: theme.textTheme.displayMedium),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    LoginPage(themeNotifier: widget.themeNotifier),
+              ),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
-          // Theme Section
           Column(
             children: [
               SizedBox(height: 20),

@@ -1,5 +1,6 @@
 import 'package:api/app/app_theme.dart';
 import 'package:api/app/dashboard_page.dart';
+import 'package:api/app/loginpage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.getLightTheme(),
           darkTheme: AppTheme.getDarkTheme(),
           themeMode: currentTheme,
-          home: HomeScreen(themeNotifier: themeNotifier),
+          home: LoginPage(themeNotifier: themeNotifier),
         );
       },
     );
