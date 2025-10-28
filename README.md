@@ -1,16 +1,15 @@
-# api
+---
 
-A new Flutter project.
+# API Project
 
-## Getting Started
+A simple Flutter project where I learned how to **fetch and manage data from online APIs** using Flutter.  
+This helped me understand how to handle network requests, parse JSON data, and display it efficiently in the app.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+### Dependencies
+- **dio:** 
+- **image_picker:**
+- **shared_preferences:** 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
